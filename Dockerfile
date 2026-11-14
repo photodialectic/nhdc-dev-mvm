@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM debian:bookworm-slim
 
-ARG GO_VERSION=1.22.5
-ARG NODE_VERSION=20.20.2
+ARG GO_VERSION=1.27.4
+ARG NODE_VERSION=26.13.1
 ARG TARGETARCH
 
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -60,8 +60,8 @@ RUN install -m 0755 -d /etc/apt/keyrings \
 # Node.js (official tarball, checksum-verified)
 RUN ARCH="${TARGETARCH:-$(dpkg --print-architecture)}" \
     && case "$ARCH" in \
-        amd64|x86_64) NODE_ARCH=x64;    NODE_SHA=df770b2a6f130ed8627c9782c988fda9669fa23898329a61a871e32f965e007d ;; \
-        arm64|aarch64) NODE_ARCH=arm64; NODE_SHA=73093db209e4e9e09dd7d15a47aeaab1b74833830df03efa5f942a1122c5fa71 ;; \
+        amd64|x86_64) NODE_ARCH=x64;    NODE_SHA=5c063e46bab0fbc1c17cc445d7ff129cbdcd0471be6ed83b6ab864f8143bc864 ;; \
+        arm64|aarch64) NODE_ARCH=arm64; NODE_SHA=89e1853138db51e8b82d3e98ba9c0d3f2956a28e5e55ea1b7e12d25aae92d5dd ;; \
         *) echo "unsupported arch $ARCH" && exit 1 ;; \
     esac \
     && curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.xz" -o /tmp/node.tar.xz \
@@ -72,8 +72,8 @@ RUN ARCH="${TARGETARCH:-$(dpkg --print-architecture)}" \
 # Go (official tarball, arch-aware, checksum-verified)
 RUN ARCH="${TARGETARCH:-$(dpkg --print-architecture)}" \
     && case "$ARCH" in \
-        amd64|x86_64) GOARCH=amd64; GO_SHA=904b924d435eaea086515bc63235b192ea441bd8c9b198c507e85009e6e4c7f0 ;; \
-        arm64|aarch64) GOARCH=arm64; GO_SHA=8d21325bfcf431be3660527c1a39d3d9ad71535fabdf5041c826e44e31642b5a ;; \
+        amd64|x86_64) GOARCH=amd64; GO_SHA=7226736c2339719cda28fbf3a54d71aa63bcefe376e98cef00034268dab24840 ;; \
+        arm64|aarch64) GOARCH=arm64; GO_SHA=3392582988a273a87ab5043ee1b2c9c17a2c3c00580bf9326c47a2e0aaaeac92 ;; \
         *) echo "unsupported arch $ARCH" && exit 1 ;; \
     esac \
     && curl -fsSL "https://go.dev/dl/go${GO_VERSION}.linux-${GOARCH}.tar.gz" -o /tmp/go.tar.gz \
